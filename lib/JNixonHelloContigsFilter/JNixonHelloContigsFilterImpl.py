@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 #BEGIN_HEADER
+import os
+from Bio import SeqIO
+from collections import namedtuple
+from kbasereport.kbasereportClient import KBaseReport
+from assemblyutil.assemblyutilClient import AssemblyUtil
 #END_HEADER
 
 
@@ -29,6 +34,9 @@ class JNixonHelloContigsFilter:
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
+        self.scratch = config['scratch']
+        self.callback_url = os.environ['SDK_CALLBACK_URL']
+        self.dfu = AssemblyUtil(self.callback_url)
         #END_CONSTRUCTOR
         pass
 
@@ -44,6 +52,37 @@ class JNixonHelloContigsFilter:
         # ctx is the context object
         # return variables are: returnVal
         #BEGIN filter_contigs
+        def perform_filter(min_length, contigs):
+            result_type = namedtuple(
+                'filter_result', ['total_count', 'filtered_count', 'filtered_set'])
+            total_count = 0
+            filtered_count = 0
+            filtered_set = set()
+            for contig in contigs:
+                if len(contig) > min_length:
+                    filtered_count += 1
+                    filtered_set.add(contig)
+                total_count += 1
+            return result_type(total_count, filtered_count, filtered_set)
+
+        min_length_contig = 30  # TODO make this a parameter
+
+        fasta_file = self.dfu.get_assembly_as_fasta({'ref': contigset})
+        contigs = SeqIO.parse(fasta_file['path'], 'fasta')
+        filtered_file = os.path.join(self.scratch, 'filtered.fasta')
+        filtered = perform_filter(min_length_contig, contigs)
+        SeqIO.write(filtered.filtered_set, filtered_file, 'fasta')
+
+        # new_assembly = self.dfu.\
+        #     save_assembly_from_fasta({'file': {'path': filtered_file},
+        #                               'workspace_name': workspace_name,
+        #                               'assembly_name': fasta_file['assembly_name']
+        #                               })
+
+        returnVal = {
+            'contig_count': filtered.total_count,
+            'filtered_contig_count': filtered.filtered_count
+        }
         #END filter_contigs
 
         # At some point might do deeper type checking...

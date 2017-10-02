@@ -1,0 +1,7 @@
+{
+    "python.autoComplete.extraPaths": [
+        "lib/"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "autopep8"
+}
