@@ -3,8 +3,8 @@
 import os
 from Bio import SeqIO
 from collections import namedtuple
-from kbasereport.kbasereportClient import KBaseReport
-from assemblyutil.assemblyutilClient import AssemblyUtil
+from KBaseReport.KBaseReportClient import KBaseReport
+from AssemblyUtil.AssemblyUtilClient import AssemblyUtil
 #END_HEADER
 
 
