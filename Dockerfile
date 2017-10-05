@@ -13,6 +13,10 @@ MAINTAINER KBase Developer
 
 RUN pip install coverage
 
+# For Debugging in Visual Studio
+
+RUN pip install ptvsd
+
 # update security libraries in the base image
 RUN pip install cffi --upgrade \
     && pip install pyopenssl --upgrade \

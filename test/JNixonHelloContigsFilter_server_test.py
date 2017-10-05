@@ -4,6 +4,8 @@ import os  # noqa: F401
 import json  # noqa: F401
 import time
 import requests
+from urllib2 import urlopen
+import ptvsd
 
 from os import environ
 try:
@@ -23,6 +25,14 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        print('setting up')
+        wd = os.getcwd()
+        print wd
+        print(os.listdir(wd))
+        my_ip = urlopen('http://ip.42.pl/raw').read()
+        print(my_ip)
+        ptvsd.enable_attach("hobgoblin", address=('0.0.0.0', 3000))
+        ptvsd.wait_for_attach()
         token = environ.get('KB_AUTH_TOKEN', None)
         config_file = environ.get('KB_DEPLOYMENT_CONFIG', None)
         cls.cfg = {}
@@ -53,6 +63,7 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        print('tearing down')
         if hasattr(cls, 'wsName'):
             cls.wsClient.delete_workspace({'workspace': cls.wsName})
             print('Test workspace was deleted')
