@@ -25,10 +25,10 @@
             "type": "python",
             "request": "attach",
             "localRoot": "${workspaceRoot}",
-            "remoteRoot": "/kb/module/test",
+            "remoteRoot": "/kb/module",
             "port": 3000,
             "secret": "hobgoblin",
-            "host": "131.243.223.130"
+            "host": "172.17.0.2"
         },
         {
             "name": "PySpark",
