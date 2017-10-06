@@ -4,7 +4,6 @@ import os  # noqa: F401
 import json  # noqa: F401
 import time
 import requests
-from urllib2 import urlopen
 import ptvsd
 
 from os import environ
@@ -14,11 +13,12 @@ except:
     from configparser import ConfigParser  # py3
 
 from pprint import pprint  # noqa: F401
-
-from biokbase.workspace.client import Workspace as workspaceService
+from Bio import SeqIO
 from JNixonHelloContigsFilter.JNixonHelloContigsFilterImpl import JNixonHelloContigsFilter
 from JNixonHelloContigsFilter.JNixonHelloContigsFilterServer import MethodContext
 from JNixonHelloContigsFilter.authclient import KBaseAuth as _KBaseAuth
+from biokbase.workspace.client import Workspace as workspaceService
+
 
 
 
@@ -92,4 +92,5 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
+
         pass
