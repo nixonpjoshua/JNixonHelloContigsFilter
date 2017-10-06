@@ -24,8 +24,8 @@ class JNixonHelloContigsFilter:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/nixonpjoshua/JNixonHelloContigsFilter.git"
-    GIT_COMMIT_HASH = "b7b15969b6106a5a3a3bd0ee034800108bde7828"
+    GIT_URL = ""
+    GIT_COMMIT_HASH = "2fe17f6f29e8adcb965bfccf757f883496654ae0"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
