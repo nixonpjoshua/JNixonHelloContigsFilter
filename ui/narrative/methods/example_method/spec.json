@@ -20,6 +20,16 @@
             "text_options": {
                 "valid_ws_types": ["KBaseGenomes.Contigset" ]
             }
+        },
+        {
+            "id": "parameter_2",
+            "optional": true,
+            "allow_multiple": false,
+            "default_values": ["10"],
+            "field_type":"text",
+            "text_options": {
+                "valid_ws_types":["KBaseGenomes.Contigset"]
+            }
         }
     ],
     "behavior": {
@@ -35,6 +45,10 @@
                 {
                     "input_parameter": "parameter_1",
                     "target_argument_position": 1
+                },
+                {
+                    "input_parameter": "parameter_2",
+                    "target_argument_position": 2
                 }
             ],
             "output_mapping": [

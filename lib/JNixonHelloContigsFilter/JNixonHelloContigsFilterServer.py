@@ -335,7 +335,7 @@ class Application(object):
         self.method_authentication = dict()
         self.rpc_service.add(impl_JNixonHelloContigsFilter.filter_contigs,
                              name='JNixonHelloContigsFilter.filter_contigs',
-                             types=[basestring, basestring])
+                             types=[basestring, basestring, int])
         self.method_authentication['JNixonHelloContigsFilter.filter_contigs'] = 'required'  # noqa
         self.rpc_service.add(impl_JNixonHelloContigsFilter.status,
                              name='JNixonHelloContigsFilter.status',

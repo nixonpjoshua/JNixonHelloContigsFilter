@@ -19,7 +19,7 @@ from JNixonHelloContigsFilter.JNixonHelloContigsFilterServer import MethodContex
 from JNixonHelloContigsFilter.authclient import KBaseAuth as _KBaseAuth
 from biokbase.workspace.client import Workspace as workspaceService
 
-
+from AssemblyUtil.AssemblyUtilClient import AssemblyUtil
 
 
 class JNixonHelloContigsFilterTest(unittest.TestCase):
@@ -28,7 +28,6 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
     def setUpClass(cls):
         ptvsd.enable_attach("hobgoblin", address=('0.0.0.0', 3000))
         ptvsd.wait_for_attach()
-        ptvsd.break_into_debugger()
         token = environ.get('KB_AUTH_TOKEN', None)
         config_file = environ.get('KB_DEPLOYMENT_CONFIG', None)
         cls.cfg = {}
@@ -81,6 +80,19 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
     def getContext(self):
         return self.__class__.ctx
 
+    def load_fasta_file(self, filename, obj_name, contents):
+        f = open(filename, 'w')
+        # TODO make this use the data folder (not sure of relative path)
+        f.write(contents)
+        f.close()
+        assemblyUtil = AssemblyUtil(self.callback_url)
+        # TODO why does this next line take forevverr
+        assembly_ref = assemblyUtil.save_assembly_from_fasta({'file': {'path': filename},
+                                                              'workspace_name': self.getWsName(),
+                                                              'assembly_name': obj_name
+                                                              })
+        return assembly_ref
+
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_your_method(self):
         # Prepare test objects in workspace if needed using
@@ -92,5 +104,27 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
+        fasta_content = '>seq1 something soemthing asdf\n' \
+                        'agcttttcat\n' \
+                        '>seq2\n' \
+                        'agctt\n' \
+                        '>seq3\n' \
+                        'agcttttcatgg'
 
-        pass
+        assembly_ref = self.load_fasta_file(os.path.join(self.scratch, 'test1.fasta'),
+                                            'TestAssembly',
+                                            fasta_content)
+
+        # self.load_fasta_file('/data/SPAdes.contigs.fa', 'testContigs')
+        # assemblyUtil = AssemblyUtil(self.callback_url)
+        # file_path = os.path.join(self.scratch, )
+        # assembly_ref = assemblyUtil.\
+        #     save_assembly_from_fasta({'file': {'path': file_path},
+        #                               'workspace_name': self.getWsName,
+        #                               'assembly_name': 'testContigs'})
+        ptvsd.break_into_debugger()
+        result = self.getImpl()
+        # TODO is this pythons version of reflection
+        result = result.filter_contigs(self.getContext(), self.getWsName(), assembly_ref, 10)
+        self.assertEqual(result[0]['contig_count'], 3)
+        self.assertEqual(result[0]['filtered_contig_count'], 1)
