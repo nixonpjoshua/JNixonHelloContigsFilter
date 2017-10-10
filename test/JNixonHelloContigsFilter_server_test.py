@@ -4,7 +4,6 @@ import os  # noqa: F401
 import json  # noqa: F401
 import time
 import requests
-import ptvsd
 
 from os import environ
 try:
@@ -13,7 +12,6 @@ except:
     from configparser import ConfigParser  # py3
 
 from pprint import pprint  # noqa: F401
-from Bio import SeqIO
 from JNixonHelloContigsFilter.JNixonHelloContigsFilterImpl import JNixonHelloContigsFilter
 from JNixonHelloContigsFilter.JNixonHelloContigsFilterServer import MethodContext
 from JNixonHelloContigsFilter.authclient import KBaseAuth as _KBaseAuth
@@ -26,8 +24,6 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        ptvsd.enable_attach("hobgoblin", address=('0.0.0.0', 3000))
-        ptvsd.wait_for_attach()
         token = environ.get('KB_AUTH_TOKEN', None)
         config_file = environ.get('KB_DEPLOYMENT_CONFIG', None)
         cls.cfg = {}
@@ -122,7 +118,6 @@ class JNixonHelloContigsFilterTest(unittest.TestCase):
         #     save_assembly_from_fasta({'file': {'path': file_path},
         #                               'workspace_name': self.getWsName,
         #                               'assembly_name': 'testContigs'})
-        ptvsd.break_into_debugger()
         result = self.getImpl()
         # TODO is this pythons version of reflection
         result = result.filter_contigs(self.getContext(), self.getWsName(), assembly_ref, 10)
