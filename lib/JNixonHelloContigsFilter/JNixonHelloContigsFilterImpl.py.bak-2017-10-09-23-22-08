@@ -41,19 +41,18 @@ class JNixonHelloContigsFilter:
         pass
 
 
-    def filter_contigs(self, ctx, workspace_name, contigset, minimum):
+    def filter_contigs(self, ctx, workspace_name, contigset):
         """
         :param workspace_name: instance of String
         :param contigset: instance of String
-        :param minimum: instance of Long
         :returns: instance of type "FilterContigResults" -> structure:
-           parameter "report_name" of String, parameter "report_ref" of
-           String, parameter "assembly_ref" of String, parameter
-           "contig_count" of Long, parameter "filtered_contig_count" of Long
+           parameter "assembly_ref" of String, parameter "contig_count" of
+           Long, parameter "filtered_contig_count" of Long
         """
         # ctx is the context object
         # return variables are: returnVal
         #BEGIN filter_contigs
+        min_length_contig = 10 # TODO add as parameter
         def perform_filter(min_length, contigs):
             result_type = namedtuple('filter_result', ['total_count', 'filtered_count', 'filtered_set'])
             total_count = 0
@@ -68,7 +67,7 @@ class JNixonHelloContigsFilter:
         fasta_file = self.dfu.get_assembly_as_fasta({'ref': contigset})
         contigs = SeqIO.parse(fasta_file['path'], 'fasta')
         filtered_file = os.path.join(self.scratch, 'filtered.fasta')
-        filtered = perform_filter(minimum, contigs)
+        filtered = perform_filter(min_length_contig, contigs)
         SeqIO.write(filtered.filtered_set, filtered_file, 'fasta')
 
         new_assembly = self.dfu.\

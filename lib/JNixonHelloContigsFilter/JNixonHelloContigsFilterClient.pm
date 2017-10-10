@@ -110,7 +110,7 @@ sub new
 
 =head2 filter_contigs
 
-  $return = $obj->filter_contigs($workspace_name, $contigset)
+  $return = $obj->filter_contigs($workspace_name, $contigset, $minimum)
 
 =over 4
 
@@ -120,10 +120,13 @@ sub new
 
 <pre>
 $workspace_name is a string
-$contigset is a JNixonHelloContigsFilter.contigset_id
+$contigset is a string
+$minimum is an int
 $return is a JNixonHelloContigsFilter.FilterContigResults
-contigset_id is a string
 FilterContigResults is a reference to a hash where the following keys are defined:
+	report_name has a value which is a string
+	report_ref has a value which is a string
+	assembly_ref has a value which is a string
 	contig_count has a value which is an int
 	filtered_contig_count has a value which is an int
 
@@ -134,10 +137,13 @@ FilterContigResults is a reference to a hash where the following keys are define
 =begin text
 
 $workspace_name is a string
-$contigset is a JNixonHelloContigsFilter.contigset_id
+$contigset is a string
+$minimum is an int
 $return is a JNixonHelloContigsFilter.FilterContigResults
-contigset_id is a string
 FilterContigResults is a reference to a hash where the following keys are defined:
+	report_name has a value which is a string
+	report_ref has a value which is a string
+	assembly_ref has a value which is a string
 	contig_count has a value which is an int
 	filtered_contig_count has a value which is an int
 
@@ -158,17 +164,18 @@ FilterContigResults is a reference to a hash where the following keys are define
 
 # Authentication: required
 
-    if ((my $n = @args) != 2)
+    if ((my $n = @args) != 3)
     {
 	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
-							       "Invalid argument count for function filter_contigs (received $n, expecting 2)");
+							       "Invalid argument count for function filter_contigs (received $n, expecting 3)");
     }
     {
-	my($workspace_name, $contigset) = @args;
+	my($workspace_name, $contigset, $minimum) = @args;
 
 	my @_bad_arguments;
         (!ref($workspace_name)) or push(@_bad_arguments, "Invalid type for argument 1 \"workspace_name\" (value was \"$workspace_name\")");
         (!ref($contigset)) or push(@_bad_arguments, "Invalid type for argument 2 \"contigset\" (value was \"$contigset\")");
+        (!ref($minimum)) or push(@_bad_arguments, "Invalid type for argument 3 \"minimum\" (value was \"$minimum\")");
         if (@_bad_arguments) {
 	    my $msg = "Invalid arguments passed to filter_contigs:\n" . join("", map { "\t$_\n" } @_bad_arguments);
 	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
@@ -288,32 +295,6 @@ sub _validate_version {
 
 
 
-=head2 contigset_id
-
-=over 4
-
-
-
-=item Definition
-
-=begin html
-
-<pre>
-a string
-</pre>
-
-=end html
-
-=begin text
-
-a string
-
-=end text
-
-=back
-
-
-
 =head2 FilterContigResults
 
 =over 4
@@ -326,6 +307,9 @@ a string
 
 <pre>
 a reference to a hash where the following keys are defined:
+report_name has a value which is a string
+report_ref has a value which is a string
+assembly_ref has a value which is a string
 contig_count has a value which is an int
 filtered_contig_count has a value which is an int
 
@@ -336,6 +320,9 @@ filtered_contig_count has a value which is an int
 =begin text
 
 a reference to a hash where the following keys are defined:
+report_name has a value which is a string
+report_ref has a value which is a string
+assembly_ref has a value which is a string
 contig_count has a value which is an int
 filtered_contig_count has a value which is an int
 

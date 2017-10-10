@@ -33,17 +33,19 @@ class JNixonHelloContigsFilter(object):
             trust_all_ssl_certificates=trust_all_ssl_certificates,
             auth_svc=auth_svc)
 
-    def filter_contigs(self, workspace_name, contigset, context=None):
+    def filter_contigs(self, workspace_name, contigset, minimum, context=None):
         """
         :param workspace_name: instance of String
-        :param contigset: instance of type "contigset_id"
+        :param contigset: instance of String
+        :param minimum: instance of Long
         :returns: instance of type "FilterContigResults" -> structure:
-           parameter "contig_count" of Long, parameter
-           "filtered_contig_count" of Long
+           parameter "report_name" of String, parameter "report_ref" of
+           String, parameter "assembly_ref" of String, parameter
+           "contig_count" of Long, parameter "filtered_contig_count" of Long
         """
         return self._client.call_method(
             'JNixonHelloContigsFilter.filter_contigs',
-            [workspace_name, contigset], self._service_ver, context)
+            [workspace_name, contigset, minimum], self._service_ver, context)
 
     def status(self, context=None):
         return self._client.call_method('JNixonHelloContigsFilter.status',

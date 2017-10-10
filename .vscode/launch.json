@@ -25,10 +25,20 @@
             "type": "python",
             "request": "attach",
             "localRoot": "${workspaceRoot}",
-            "remoteRoot": "/kb/module",
+            "remoteRoot": "kb/module",
             "port": 3000,
             "secret": "hobgoblin",
-            "host": "172.17.0.2"
+            "host": "localhost"
+        },
+        {
+            "name": "Attach Python SDK2",
+            "type": "python",
+            "request": "attach",
+            "localRoot": "${workspaceRoot}/test",
+            "remoteRoot": "kb/module/test",
+            "port": 3000,
+            "secret": "hobgoblin",
+            "host": "localhost"
         },
         {
             "name": "PySpark",
@@ -211,7 +221,7 @@
             "localRoot": "${workspaceRoot}",
             "remoteRoot": "${workspaceRoot}",
             "port": 3000,
-            "secret": "my_secret",
+            "secret": "hobgoblin",
             "host": "localhost"
         }
     ]

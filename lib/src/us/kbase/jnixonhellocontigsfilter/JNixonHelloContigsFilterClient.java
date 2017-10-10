@@ -167,15 +167,17 @@ public class JNixonHelloContigsFilterClient {
      * <pre>
      * </pre>
      * @param   workspaceName   instance of String
-     * @param   contigset   instance of original type "contigset_id"
+     * @param   contigset   instance of String
+     * @param   minimum   instance of Long
      * @return   instance of type {@link us.kbase.jnixonhellocontigsfilter.FilterContigResults FilterContigResults}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public FilterContigResults filterContigs(String workspaceName, String contigset, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public FilterContigResults filterContigs(String workspaceName, String contigset, Long minimum, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         args.add(workspaceName);
         args.add(contigset);
+        args.add(minimum);
         TypeReference<List<FilterContigResults>> retType = new TypeReference<List<FilterContigResults>>() {};
         List<FilterContigResults> res = caller.jsonrpcCall("JNixonHelloContigsFilter.filter_contigs", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);

@@ -24,8 +24,8 @@ class JNixonHelloContigsFilter:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/nixonpjoshua/JNixonHelloContigsFilter.git"
-    GIT_COMMIT_HASH = "d5ca46076850b2d34210d7806ca77244964f5875"
+    GIT_URL = ""
+    GIT_COMMIT_HASH = "2fe17f6f29e8adcb965bfccf757f883496654ae0"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -41,21 +41,20 @@ class JNixonHelloContigsFilter:
         pass
 
 
-    def filter_contigs(self, ctx, workspace_name, contigset, minimum):
+    def filter_contigs(self, ctx, workspace_name, contigset):
         """
         :param workspace_name: instance of String
-        :param contigset: instance of String
-        :param minimum: instance of Long
+        :param contigset: instance of type "contigset_id"
         :returns: instance of type "FilterContigResults" -> structure:
-           parameter "report_name" of String, parameter "report_ref" of
-           String, parameter "assembly_ref" of String, parameter
-           "contig_count" of Long, parameter "filtered_contig_count" of Long
+           parameter "contig_count" of Long, parameter
+           "filtered_contig_count" of Long
         """
         # ctx is the context object
         # return variables are: returnVal
         #BEGIN filter_contigs
         def perform_filter(min_length, contigs):
-            result_type = namedtuple('filter_result', ['total_count', 'filtered_count', 'filtered_set'])
+            result_type = namedtuple(
+                'filter_result', ['total_count', 'filtered_count', 'filtered_set'])
             total_count = 0
             filtered_count = 0
             filtered_set = set()
@@ -65,28 +64,22 @@ class JNixonHelloContigsFilter:
                     filtered_set.add(contig)
                 total_count += 1
             return result_type(total_count, filtered_count, filtered_set)
+
+        min_length_contig = 30  # TODO make this a parameter
+
         fasta_file = self.dfu.get_assembly_as_fasta({'ref': contigset})
         contigs = SeqIO.parse(fasta_file['path'], 'fasta')
         filtered_file = os.path.join(self.scratch, 'filtered.fasta')
-        filtered = perform_filter(minimum, contigs)
+        filtered = perform_filter(min_length_contig, contigs)
         SeqIO.write(filtered.filtered_set, filtered_file, 'fasta')
 
-        new_assembly = self.dfu.\
-            save_assembly_from_fasta({'file': {'path': filtered_file},
-                                      'workspace_name': workspace_name,
-                                      'assembly_name': fasta_file['assembly_name']
-                                      })
-
-        reportObj = {
-            'objects_created': [{'ref': new_assembly, 'description': 'Filtered contigs'}],
-            'text_message': 'Filtered Assembly to ' + str(filtered.filtered_count) + ' contigs out of ' + str(filtered.total_count)
-        }
-        report = KBaseReport(self.callback_url)
-        report_info = report.create({'report': reportObj, 'workspace_name': workspace_name})
+        # new_assembly = self.dfu.\
+        #     save_assembly_from_fasta({'file': {'path': filtered_file},
+        #                               'workspace_name': workspace_name,
+        #                               'assembly_name': fasta_file['assembly_name']
+        #                               })
 
         returnVal = {
-            'report_name': report_info['name'],
-            'report_ref': report_info['ref'],
             'contig_count': filtered.total_count,
             'filtered_contig_count': filtered.filtered_count
         }

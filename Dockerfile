@@ -15,7 +15,7 @@ RUN pip install coverage
 
 # For Debugging in Visual Studio
 
-RUN pip install ptvsd
+RUN pip install ptvsd==3.0.0
 
 # update security libraries in the base image
 RUN pip install cffi --upgrade \
@@ -30,6 +30,7 @@ RUN pip install cffi --upgrade \
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work
 RUN chmod -R a+rw /kb/module
+EXPOSE 3000
 
 WORKDIR /kb/module
 

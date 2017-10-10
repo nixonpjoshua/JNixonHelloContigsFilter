@@ -40,8 +40,7 @@ class JNixonHelloContigsFilter:
         #END_CONSTRUCTOR
         pass
 
-
-    def filter_contigs(self, ctx, workspace_name, contigset, minimum):
+    def filter_contigs(self, ctx, workspace_name, contigset, minimum=10):
         """
         :param workspace_name: instance of String
         :param contigset: instance of String
