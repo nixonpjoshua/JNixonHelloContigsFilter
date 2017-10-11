@@ -18,7 +18,7 @@
             "default_values": [ "" ],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": ["KBaseGenomes.Contigset" ]
+                "valid_ws_types": ["KBaseGenomes.Contigset", "KBaseGenomeAnnotations.Assembly"]
             }
         },
         {
@@ -28,7 +28,8 @@
             "default_values": ["10"],
             "field_type":"text",
             "text_options": {
-                "valid_ws_types":["KBaseGenomes.Contigset"]
+                "validate_as":["int"],
+                "min_integer": 0
             }
         }
     ],
