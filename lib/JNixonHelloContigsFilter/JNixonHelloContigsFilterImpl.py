@@ -54,6 +54,9 @@ class JNixonHelloContigsFilter:
         # ctx is the context object
         # return variables are: returnVal
         #BEGIN filter_contigs
+        print(workspace_name)
+        print(contigset)
+        print(minimum)
         def perform_filter(min_length, contigs):
             result_type = namedtuple('filter_result', ['total_count', 'filtered_count', 'filtered_set'])
             total_count = 0
@@ -65,7 +68,9 @@ class JNixonHelloContigsFilter:
                     filtered_set.add(contig)
                 total_count += 1
             return result_type(total_count, filtered_count, filtered_set)
+        print('about to get fasta')
         fasta_file = self.dfu.get_assembly_as_fasta({'ref': contigset})
+        print('got fasta')
         contigs = SeqIO.parse(fasta_file['path'], 'fasta')
         filtered_file = os.path.join(self.scratch, 'filtered.fasta')
         filtered = perform_filter(minimum, contigs)
