@@ -10,6 +10,6 @@ module JNixonHelloContigsFilter {
         int contig_count;
         int filtered_contig_count;
     } FilterContigResults;
-    funcdef filter_contigs(string workspace_name, string contigset, int minimum)
+    funcdef filter_contigs(string workspace_name, string contigset, string minimum)
             returns (FilterContigResults) authentication required;
 };

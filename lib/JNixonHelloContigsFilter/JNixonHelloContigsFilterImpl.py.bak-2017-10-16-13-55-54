@@ -25,7 +25,7 @@ class JNixonHelloContigsFilter:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/nixonpjoshua/JNixonHelloContigsFilter.git"
-    GIT_COMMIT_HASH = "9286d85f9df2315268f106e1161ad5cd2ac999a0"
+    GIT_COMMIT_HASH = "d5ca46076850b2d34210d7806ca77244964f5875"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -45,7 +45,7 @@ class JNixonHelloContigsFilter:
         """
         :param workspace_name: instance of String
         :param contigset: instance of String
-        :param minimum: instance of String
+        :param minimum: instance of Long
         :returns: instance of type "FilterContigResults" -> structure:
            parameter "report_name" of String, parameter "report_ref" of
            String, parameter "assembly_ref" of String, parameter
@@ -54,7 +54,6 @@ class JNixonHelloContigsFilter:
         # ctx is the context object
         # return variables are: returnVal
         #BEGIN filter_contigs
-        minimum = int(minimum)
         def perform_filter(min_length, contigs):
             result_type = namedtuple('filter_result', ['total_count', 'filtered_count', 'filtered_set'])
             total_count = 0
