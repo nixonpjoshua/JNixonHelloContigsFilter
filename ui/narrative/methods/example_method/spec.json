@@ -7,7 +7,7 @@
     "categories": ["active"],
     "widgets": {
         "input": null,
-        "output": null
+        "output": "no-display"
     },
     "parameters": [ 
         {
@@ -23,7 +23,7 @@
         },
         {
             "id": "parameter_2",
-            "optional": true,
+            "optional": false,
             "allow_multiple": false,
             "default_values": ["10"],
             "field_type":"text",

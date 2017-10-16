@@ -37,7 +37,7 @@ class JNixonHelloContigsFilter(object):
         """
         :param workspace_name: instance of String
         :param contigset: instance of String
-        :param minimum: instance of String
+        :param minimum: instance of Long
         :returns: instance of type "FilterContigResults" -> structure:
            parameter "report_name" of String, parameter "report_ref" of
            String, parameter "assembly_ref" of String, parameter

@@ -1,14 +1,14 @@
 #
 # define display information
 #
-name: Method Name Here
+name: Hello KBase-SDK
 
 tooltip: |
-    Perform some kind of method
+    filters contigs below a certain threshold
 
 screenshots: []
 
-icon: icon.png
+icon: null
 
 #
 # define a set of similar methods that might be useful to the user
@@ -16,14 +16,14 @@ icon: icon.png
 suggestions:
     apps:
         related:
-            [app1, app2]
+            []
         next:
-            [app3, app4]
+            []
     methods:
         related:
-            [method1, method2]
+            []
         next:
-            [method3, method4]
+            [annotate_contigset]
 
 #
 # Configure the display and description of parameters

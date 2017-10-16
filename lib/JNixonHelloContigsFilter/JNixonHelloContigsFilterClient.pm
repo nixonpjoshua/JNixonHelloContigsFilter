@@ -121,7 +121,7 @@ sub new
 <pre>
 $workspace_name is a string
 $contigset is a string
-$minimum is a string
+$minimum is an int
 $return is a JNixonHelloContigsFilter.FilterContigResults
 FilterContigResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -138,7 +138,7 @@ FilterContigResults is a reference to a hash where the following keys are define
 
 $workspace_name is a string
 $contigset is a string
-$minimum is a string
+$minimum is an int
 $return is a JNixonHelloContigsFilter.FilterContigResults
 FilterContigResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
